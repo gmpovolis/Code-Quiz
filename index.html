@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Code Quiz</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <button type="button" class="btn btn-primary">View Highscores</button>
+        </li>
+        <nav class="navbar-text"></span>
+    </ul>
+
+
+    <div class="container">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-2">
+              <h3 class="question text-center">Random Quiz</h3>
+              <div class="card-body text-center">
+                <h3 class="answer text-center"></h3>
+                <button id="Start">start</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-2">
+              <h3 class="result">Result</h3>
+              <div class="card-body text-center">
+                <h1 id="result"></h1>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script>
+
+    
+    // We start the game with a score of 0.
+    var initials = "";
+    var highScore = 0;
+    // The array of questions for our quiz.
+    var myQuestions = [
+        {
+            question: "Which is not an option when choosing your starting Pokemon?",
+            answer: { a: "Squirtle", b: "Bulbasaur", c: "Charmander", d: "Lugia"
+            },
+            correctAnswer: "d"
+        },
+        {
+            question: "Who is not a member of the Teen Titans?",
+            answer: { a: "Robin", b: "Raven", c: "Batman", d: "BeastBoy"
+            },
+            correctAnswer: "c"
+        },
+        {
+            question: "Who is a member of the Code Name Kids Next Door?",
+            answer: { a: "Sam", b: "Number 1", c: "Frodo", d: "Brendan Eich"
+            },
+            correctAnswer: "b"
+        },
+        {
+            question: "Which is/are founding member of the Justice League?",
+            answer: { a: "Batman", b: "Superman", c: "Wonder Woman", d: "All of the above"
+            },
+            correctAnswer: "d"
+        },
+        {
+            question: "Who is the fastest member of the Justice League?",
+            answer: { a: "The Flash", b: "Batman", c: "Wonder Woman", d: "Greenlatern"
+            },
+            correctAnswer: "a"
+        },
+        
+      
+    ];
+
+    $("#Start").on("click", function(){
+        setTime();
+        myQuestions.forEach(question, displayQuestion());
+    });
+
+    function displayQuestion(){
+        document.querySelector(".question").textContent(myQuestions[i].question.valueOf());
+    };
+
+    function displayAnswers(){
+        for(var j = 0; j<myQuestions[i].answer.length; j++){
+            var answerBtn = $(".answer").$("<button>");
+            answerBtn.addClass("answer-button answer-button-color");
+            answerBtn.attr("data-answer", answer[j]);
+            letterBtn.text(answer[j]);
+            $("#buttons").append(answerBtn);
+        }
+    };
+
+    function setTime() {
+        secondsLeft = 30;
+        var timerInterval = setInterval(function() {
+            secondsLeft--; 
+            document.querySelector("#navbar-text").textContent("Time Left: " + secondsLeft);
+
+            if(secondsLeft === 0) {
+            submit();
+            }
+
+        }, 1000);
+    }
+
+    function clearTimer(){
+        document.querySelector(".navbar-text").textContent("");
+    }
+
+    
+    function submit(){
+        clearTimer();
+
+    }
+
+    $("#answer").on("click", function(){
+        if(answerBtn.valueOf === answer[j]){
+            highScore= highScore + 5;
+            document.querySelector("#result").textContent("Correct");
+        } else {
+            document.querySelector("#result").textContent("Incorrect");
+        }
+    });
+
+   
+var startEl = document.querySelector("#Start");
+startEl.addEventListener("click", function(){
+    setTime();
+});
+
+  </script>
+
+</body>
+
+</html>
