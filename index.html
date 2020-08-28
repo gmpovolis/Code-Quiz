@@ -3,147 +3,237 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Code Quiz</title>
+  <title>Random Trivia Quiz</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 </head>
 
 <body>
-    <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <button type="button" class="btn btn-primary">View Highscores</button>
-        </li>
-        <nav class="navbar-text"></span>
-    </ul>
-
-
-    <div class="container">
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card mb-2">
-              <h3 class="question text-center">Random Quiz</h3>
-              <div class="card-body text-center">
-                <h3 class="answer text-center"></h3>
-                <button id="Start">start</button>
-              </div>
-            </div>
-          </div>
-        </div>
     
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card mb-2">
-              <h3 class="result">Result</h3>
-              <div class="card-body text-center">
-                <h1 id="result"></h1>
-              </div>
-            </div>
-          </div>
-        </div>
+  <ul class="nav justify-content-center">
+    <li>
+      <button class="viewScores">View Scoreboard</button>
+    </li>
+    <li>
+      <div class="time"></div>
+    </li>
+  </ul>
+
+  <div class="card">
+    <div class="card-body justify-content-center">
+      <h1>Random Trivia Game</h1>
+      <h4>Press Start to begin!</h4>
+      <button class="start">Start</button>
     </div>
+  </div>
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   <script>
 
-    
-    // We start the game with a score of 0.
-    var initials = "";
-    var highScore = 0;
     // The array of questions for our quiz.
-    var myQuestions = [
+    var questions = [
         {
             question: "Which is not an option when choosing your starting Pokemon?",
-            answer: { a: "Squirtle", b: "Bulbasaur", c: "Charmander", d: "Lugia"
+            answers: { a: "Squirtle", b: "Bulbasaur", c: "Charmander", d: "Lugia"
             },
-            correctAnswer: "d"
+            answer: "d"
         },
         {
             question: "Who is not a member of the Teen Titans?",
-            answer: { a: "Robin", b: "Raven", c: "Batman", d: "BeastBoy"
+            answers: { a: "Robin", b: "Raven", c: "Batman", d: "BeastBoy"
             },
-            correctAnswer: "c"
+            answer: "c"
         },
         {
             question: "Who is a member of the Code Name Kids Next Door?",
-            answer: { a: "Sam", b: "Number 1", c: "Frodo", d: "Brendan Eich"
+            answers: { a: "Sam", b: "Number 1", c: "Frodo", d: "Brendan Eich"
             },
-            correctAnswer: "b"
+            answer: "b"
         },
         {
             question: "Which is/are founding member of the Justice League?",
-            answer: { a: "Batman", b: "Superman", c: "Wonder Woman", d: "All of the above"
+            answers: { a: "Batman", b: "Superman", c: "Wonder Woman", d: "All of the above"
             },
-            correctAnswer: "d"
+            answer: "d"
         },
         {
             question: "Who is the fastest member of the Justice League?",
-            answer: { a: "The Flash", b: "Batman", c: "Wonder Woman", d: "Greenlatern"
+            answers: { a: "The Flash", b: "Batman", c: "Wonder Woman", d: "Greenlatern"
             },
-            correctAnswer: "a"
-        },
-        
-      
+            answer: "a"
+        }
     ];
 
-    $("#Start").on("click", function(){
+    $(document).on("click", ".start", function(event){
+        event.preventDefault();
         setTime();
-        myQuestions.forEach(question, displayQuestion());
+        localStorage.setItem("index", JSON.stringify(0));
+        displayQuestion(JSON.parse(localStorage.getItem("index")));
+        localStorage.setItem("result", JSON.stringify(0));
     });
 
-    function displayQuestion(){
-        document.querySelector(".question").textContent(myQuestions[i].question.valueOf());
+    function displayQuestion(index){
+      if(questions[index]==null){
+        submit();
+      } else {
+        $(".card-body").empty();
+        $(".card-body").append("<h2>"+questions[index].question+"</h2>");
+        $(".card-body").append("<button class='a'>"+questions[index].answers.a+"</button>");
+        $(".card-body").append("<button class='b'>"+questions[index].answers.b+"</button>");
+        $(".card-body").append("<button class='c'>"+questions[index].answers.c+"</button>");
+        $(".card-body").append("<button class='d'>"+questions[index].answers.d+"</button>");
+      }
     };
 
-    function displayAnswers(){
-        for(var j = 0; j<myQuestions[i].answer.length; j++){
-            var answerBtn = $(".answer").$("<button>");
-            answerBtn.addClass("answer-button answer-button-color");
-            answerBtn.attr("data-answer", answer[j]);
-            letterBtn.text(answer[j]);
-            $("#buttons").append(answerBtn);
-        }
-    };
+    $(document).on("click", ".a", function(event){
+      event.preventDefault();
+      if (questions[JSON.parse(localStorage.getItem("index"))].answer === "a"){
+        var result = JSON.parse(localStorage.getItem("result")) + 5;
+        localStorage.setItem("result", JSON.stringify(result));
+        console.log("result: ", result);
+      }else{
+        var result = JSON.parse(localStorage.getItem("result")) - 1;
+        localStorage.setItem("result", JSON.stringify(result));
+        secondsLeft= secondsLeft - 8;
+        console.log("result: ", result);
+      }
+      var index = JSON.parse(localStorage.getItem("index")) + 1;
+      localStorage.setItem("index", JSON.stringify(index));
+      console.log("index: ",index)
+      displayQuestion(index);
+    });
+    
+    $(document).on("click", ".b", function(event){
+      event.preventDefault();
+      if (questions[JSON.parse(localStorage.getItem("index"))].answer === "b"){
+        var result = JSON.parse(localStorage.getItem("result")) + 5;
+        localStorage.setItem("result", JSON.stringify(result));
+        console.log("result: ", result);
+      }else{
+        var result = JSON.parse(localStorage.getItem("result")) - 1;
+        localStorage.setItem("result", JSON.stringify(result));
+        secondsLeft= secondsLeft - 8;
+        console.log("result: ", result);
+      }
+      var index = JSON.parse(localStorage.getItem("index")) + 1;
+      localStorage.setItem("index", JSON.stringify(index));
+      console.log("index: ",index)
+      displayQuestion(index);
+    });
+    
+    $(document).on("click", ".c", function(event){
+      event.preventDefault();
+      if (questions[JSON.parse(localStorage.getItem("index"))].answer === "c"){
+        var result = JSON.parse(localStorage.getItem("result")) + 5;
+        localStorage.setItem("result", JSON.stringify(result));
+        console.log("result: ", result);
+      }else{
+        var result = JSON.parse(localStorage.getItem("result")) - 1;
+        localStorage.setItem("result", JSON.stringify(result));
+        secondsLeft= secondsLeft - 8;
+        console.log("result: ", result);
+      }
+      var index = JSON.parse(localStorage.getItem("index")) + 1;
+      localStorage.setItem("index", JSON.stringify(index));
+      console.log("index: ",index)
+      displayQuestion(index);
+    });
+    
+    $(document).on("click", ".d", function(event){
+      event.preventDefault();
+      if (questions[JSON.parse(localStorage.getItem("index"))].answer === "d"){
+        var result = JSON.parse(localStorage.getItem("result")) + 5;
+        localStorage.setItem("result", JSON.stringify(result));
+        console.log("result: ", result);
+      }else{
+        var result = JSON.parse(localStorage.getItem("result")) - 1;
+        localStorage.setItem("result", JSON.stringify(result));
+        secondsLeft= secondsLeft - 8;
+        console.log("result: ", result);
+      }
+      var index = JSON.parse(localStorage.getItem("index")) + 1;
+      localStorage.setItem("index", JSON.stringify(index));
+      console.log("index: ",index)
+      displayQuestion(index);
+    });
 
     function setTime() {
         secondsLeft = 30;
         var timerInterval = setInterval(function() {
             secondsLeft--; 
-            document.querySelector("#navbar-text").textContent("Time Left: " + secondsLeft);
+            $(".time").text("Time Left: " + secondsLeft);
 
-            if(secondsLeft === 0) {
-            submit();
+            if(secondsLeft < 1) {
+              clearInterval(timerInterval);
+              $(".time").text("");
+              submit();
             }
 
         }, 1000);
     }
 
-    function clearTimer(){
-        document.querySelector(".navbar-text").textContent("");
-    }
-
-    
     function submit(){
-        clearTimer();
-
+        $(".time").text("");
+        $(".card-body").empty();
+        $(".card-body").append("<form><div class='form-group'><div>Save your initials with your score of "+localStorage.getItem('result')+" to the Scoreboard</div><input type='text' id='initials' placeholder='Initials'><button type='submit' class='btn btn-primary save'>Save</button></div><div><button class='again'>Start Quiz</button></div></form>");
+        if(secondsLeft>0){
+          secondsLeft = secondsLeft- secondsLeft;
+        } else {
+          $(".time").text("");
+        }
     }
 
-    $("#answer").on("click", function(){
-        if(answerBtn.valueOf === answer[j]){
-            highScore= highScore + 5;
-            document.querySelector("#result").textContent("Correct");
-        } else {
-            document.querySelector("#result").textContent("Incorrect");
+    $(document).on("click", ".save", function(event){
+        event.preventDefault();
+        var initials = $("#initials").val().trim();
+        if(localStorage.getItem("nameScore") != null){
+            var arr = [];
+            var nameScores = JSON.parse(localStorage.getItem("nameScore"));
+            console.log("nameScores: ", nameScores);
+            for(var i =0; i<nameScores.length; i++){
+              arr.push(nameScores[i])
+            } 
+            console.log(arr);
+            arr.push(""+initials+" "+localStorage.getItem("result")+"")
+            localStorage.setItem("nameScore", JSON.stringify(arr));
+        } else{
+            var nameScore = [initials+" "+localStorage.getItem("result")];
+            localStorage.setItem("nameScore", JSON.stringify(nameScore));  
         }
+        display();
     });
 
-   
-var startEl = document.querySelector("#Start");
-startEl.addEventListener("click", function(){
-    setTime();
-});
+    function display(){
+        $(".card-body").empty();
+        $(".card-body").append("<h1>Scoreboard</h1><div class='scores'></div>");
+        console.log(localStorage.getItem("nameScore"));
+        var storage = localStorage.getItem("nameScore");
+        console.log("storage: ", storage);
+        if(storage != null){
+          console.log(JSON.parse(localStorage.getItem("nameScore")));
+            var scores = JSON.parse(localStorage.getItem("nameScore"));
+            $(".scores").empty();
+            for(var i = 0; i<scores.length; i++ ){
+                $(".scores").append("<h4>"+scores[i]+"</h4>")
+            }
+        }
+        $(".card-body").append("<button class='again'>Start Quiz</button>")
+    };
+
+    $(".viewScores").on("click", function(event){
+      event.preventDefault();
+      display();
+    });
+
+    $(document).on("click", ".again", function(){
+        event.preventDefault();
+        setTime();
+        localStorage.setItem("index", JSON.stringify(0));
+        displayQuestion(JSON.parse(localStorage.getItem("index")));
+        localStorage.setItem("result", JSON.stringify(0));
+    })
 
   </script>
 
